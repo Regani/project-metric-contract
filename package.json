@@ -1,0 +1,45 @@
+{
+  "name": "project-metric-contract",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    "./schema": "./contracts/project-metric.schema.json",
+    "./time-zones": "./contracts/time-zones.schema.json",
+    "./types": {
+      "types": "./contracts/generated/project-metric.d.ts"
+    },
+    "./validator": {
+      "types": "./contracts/generated/validate.d.cts",
+      "default": "./contracts/generated/validate.cjs"
+    },
+    "./decoder": {
+      "types": "./contracts/generated/decode.d.ts",
+      "default": "./contracts/generated/decode.js"
+    }
+  },
+  "files": [
+    "contracts/"
+  ],
+  "scripts": {
+    "gen:metric": "node scripts/gen-project-metric.ts",
+    "check:metric-generation": "node scripts/gen-project-metric.ts --check",
+    "typecheck": "tsc",
+    "test": "node --test test/*.test.ts",
+    "check": "npm run check:metric-generation && npm run check:architecture && npm run typecheck && npm test",
+    "check:architecture": "node scripts/check-architecture.ts"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.2",
+    "json-schema-to-typescript": "16.0.0",
+    "moment-timezone": "0.6.4",
+    "typescript": "6.0.3"
+  }
+}

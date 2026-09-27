@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Regani/project-metric-contract/raw/HEAD/contracts/project-metric.schema.json",
+  "title": "ProjectMetric",
+  "description": "One project-owned metric. Interval dates are inclusive. Timestamps are UTC RFC3339; observedAt is measurement time, never export time. Signed values are allowed; zero is measured.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]{0,63}$"
+    },
+    "label": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/text"
+        },
+        {
+          "type": "string",
+          "maxLength": 160
+        }
+      ]
+    },
+    "unit": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/text"
+        },
+        {
+          "type": "string",
+          "maxLength": 64
+        }
+      ]
+    },
+    "scope": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/text"
+        },
+        {
+          "type": "string",
+          "maxLength": 256
+        }
+      ]
+    },
+    "period": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "interval"
+            },
+            "start": {
+              "$ref": "#/definitions/date"
+            },
+            "end": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/date"
+                },
+                {
+                  "type": "string",
+                  "format": "date",
+                  "formatMinimum": {
+                    "$data": "1/start"
+                  }
+                }
+              ]
+            },
+            "timeZone": {
+              "$ref": "time-zones.schema.json"
+            }
+          },
+          "required": [
+            "kind",
+            "start",
+            "end",
+            "timeZone"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "point"
+            },
+            "at": {
+              "$ref": "#/definitions/timestamp"
+            }
+          },
+          "required": [
+            "kind",
+            "at"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "observedAt": {
+      "$ref": "#/definitions/timestamp"
+    },
+    "validUntil": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/timestamp"
+        },
+        {
+          "type": "string",
+          "format": "date-time",
+          "formatMinimum": {
+            "$data": "1/observedAt"
+          }
+        }
+      ]
+    },
+    "coverage": {
+      "enum": [
+        "complete",
+        "partial",
+        "unknown"
+      ]
+    },
+    "result": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "measured"
+            },
+            "value": {
+              "type": "number",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "status",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "no-measurement"
+            },
+            "reason": {
+              "enum": [
+                "not-configured",
+                "no-data",
+                "unavailable"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "version",
+    "id",
+    "label",
+    "unit",
+    "scope",
+    "period",
+    "observedAt",
+    "validUntil",
+    "coverage",
+    "result"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:[0-5]\\d(?:\\.\\d{1,3})?Z$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u061c\\u200e\\u200f\\u2028-\\u202e\\u2066-\\u2069]+$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}
