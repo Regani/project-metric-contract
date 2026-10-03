@@ -1,4 +1,4 @@
-import type { ProjectMetric } from '../../contracts/generated/project-metric.js'
+import type { ProjectMetric } from '../../contracts/generated/metric/project-metric.js'
 
 export function metricFixture(overrides: Partial<ProjectMetric> = {}): ProjectMetric {
   return {

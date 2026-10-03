@@ -22,7 +22,7 @@
     ]
   },
   "include": [
-    "contracts/generated/*.ts",
+    "contracts/generated/**/*.ts",
     "scripts",
     "test"
   ]

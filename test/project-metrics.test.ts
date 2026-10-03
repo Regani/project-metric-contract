@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { decode } from '../contracts/generated/decode.js'
+import { decode } from '../contracts/generated/metric/decode.js'
 import { metricFixture } from './fixtures/project-metric.ts'
 
 test('generated decoder accepts both periods, zero, partial coverage and every no-measurement reason', () => {

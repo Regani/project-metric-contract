@@ -8,28 +8,41 @@
   },
   "exports": {
     "./schema": "./contracts/project-metric.schema.json",
+    "./definitions": "./contracts/definitions.schema.json",
     "./time-zones": "./contracts/time-zones.schema.json",
     "./types": {
-      "types": "./contracts/generated/project-metric.d.ts"
+      "types": "./contracts/generated/metric/project-metric.d.ts"
     },
     "./validator": {
-      "types": "./contracts/generated/validate.d.cts",
-      "default": "./contracts/generated/validate.cjs"
+      "types": "./contracts/generated/metric/validate.d.cts",
+      "default": "./contracts/generated/metric/validate.cjs"
     },
     "./decoder": {
-      "types": "./contracts/generated/decode.d.ts",
-      "default": "./contracts/generated/decode.js"
+      "types": "./contracts/generated/metric/decode.d.ts",
+      "default": "./contracts/generated/metric/decode.js"
+    },
+    "./review/schema": "./contracts/project-review.schema.json",
+    "./review/types": {
+      "types": "./contracts/generated/review/project-review.d.ts"
+    },
+    "./review/validator": {
+      "types": "./contracts/generated/review/validate.d.cts",
+      "default": "./contracts/generated/review/validate.cjs"
+    },
+    "./review/decoder": {
+      "types": "./contracts/generated/review/decode.d.ts",
+      "default": "./contracts/generated/review/decode.js"
     }
   },
   "files": [
     "contracts/"
   ],
   "scripts": {
-    "gen:metric": "node scripts/gen-project-metric.ts",
-    "check:metric-generation": "node scripts/gen-project-metric.ts --check",
+    "gen": "node scripts/gen-contract.ts",
+    "check:generation": "node scripts/gen-contract.ts --check",
     "typecheck": "tsc",
     "test": "node --test test/*.test.ts",
-    "check": "npm run check:metric-generation && npm run check:architecture && npm run typecheck && npm test",
+    "check": "npm run check:generation && npm run check:architecture && npm run typecheck && npm test",
     "check:architecture": "node scripts/check-architecture.ts"
   },
   "dependencies": {

@@ -15,7 +15,7 @@
     "label": {
       "allOf": [
         {
-          "$ref": "#/definitions/text"
+          "$ref": "definitions.schema.json#/definitions/text"
         },
         {
           "type": "string",
@@ -26,7 +26,7 @@
     "unit": {
       "allOf": [
         {
-          "$ref": "#/definitions/text"
+          "$ref": "definitions.schema.json#/definitions/text"
         },
         {
           "type": "string",
@@ -37,7 +37,7 @@
     "scope": {
       "allOf": [
         {
-          "$ref": "#/definitions/text"
+          "$ref": "definitions.schema.json#/definitions/text"
         },
         {
           "type": "string",
@@ -54,12 +54,12 @@
               "const": "interval"
             },
             "start": {
-              "$ref": "#/definitions/date"
+              "$ref": "definitions.schema.json#/definitions/date"
             },
             "end": {
               "allOf": [
                 {
-                  "$ref": "#/definitions/date"
+                  "$ref": "definitions.schema.json#/definitions/date"
                 },
                 {
                   "type": "string",
@@ -89,7 +89,7 @@
               "const": "point"
             },
             "at": {
-              "$ref": "#/definitions/timestamp"
+              "$ref": "definitions.schema.json#/definitions/timestamp"
             }
           },
           "required": [
@@ -101,12 +101,12 @@
       ]
     },
     "observedAt": {
-      "$ref": "#/definitions/timestamp"
+      "$ref": "definitions.schema.json#/definitions/timestamp"
     },
     "validUntil": {
       "allOf": [
         {
-          "$ref": "#/definitions/timestamp"
+          "$ref": "definitions.schema.json#/definitions/timestamp"
         },
         {
           "type": "string",
@@ -179,21 +179,5 @@
     "coverage",
     "result"
   ],
-  "additionalProperties": false,
-  "definitions": {
-    "timestamp": {
-      "type": "string",
-      "format": "date-time",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:[0-5]\\d(?:\\.\\d{1,3})?Z$"
-    },
-    "text": {
-      "type": "string",
-      "minLength": 1,
-      "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f\\u061c\\u200e\\u200f\\u2028-\\u202e\\u2066-\\u2069]+$"
-    },
-    "date": {
-      "type": "string",
-      "format": "date"
-    }
-  }
+  "additionalProperties": false
 }

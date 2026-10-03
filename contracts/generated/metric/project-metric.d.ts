@@ -1,7 +1,5 @@
 /* Generated from contracts/project-metric.schema.json. Do not edit. */
 
-export type Text = string;
-export type Date = string;
 export type IanaTimeZone =
   | "Africa/Abidjan"
   | "Africa/Accra"
@@ -600,7 +598,6 @@ export type IanaTimeZone =
   | "W-SU"
   | "WET"
   | "Zulu";
-export type Timestamp = string;
 
 /**
  * One project-owned metric. Interval dates are inclusive. Timestamps are UTC RFC3339; observedAt is measurement time, never export time. Signed values are allowed; zero is measured.
@@ -608,22 +605,22 @@ export type Timestamp = string;
 export interface ProjectMetric {
   version: 1;
   id: string;
-  label: Text;
-  unit: Text;
-  scope: Text;
+  label: string;
+  unit: string;
+  scope: string;
   period:
     | {
         kind: "interval";
-        start: Date;
-        end: Date;
+        start: string;
+        end: string;
         timeZone: IanaTimeZone;
       }
     | {
         kind: "point";
-        at: Timestamp;
+        at: string;
       };
-  observedAt: Timestamp;
-  validUntil: Timestamp;
+  observedAt: string;
+  validUntil: string;
   coverage: "complete" | "partial" | "unknown";
   result:
     | {

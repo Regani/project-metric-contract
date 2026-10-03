@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import ts from 'typescript'
 
 // Generated adapters are checked by regeneration, never by handwritten-code rules.
-const excluded = new Set(['node_modules', '.git', '.scratch', '.agents', '.codex', 'generated'])
+const excluded = new Set(['node_modules', '.git', '.scratch', '.agents', '.codex', '.venv', 'generated'])
 async function inspect(directory: string): Promise<void> {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const file = join(directory, entry.name)

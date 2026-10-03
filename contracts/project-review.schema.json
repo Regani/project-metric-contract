@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Regani/project-metric-contract/raw/HEAD/contracts/project-review.schema.json",
+  "title": "ProjectReview",
+  "description": "The items a project currently offers for review, read-only. The project owns each item, its status and its text; the consumer owns where the file lives and how it is shown. Timestamps are UTC RFC3339; validUntil is the freshness deadline, with equality still fresh.",
+  "maxEncodedBytes": 65536,
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "observedAt": {
+      "$ref": "definitions.schema.json#/definitions/timestamp"
+    },
+    "validUntil": {
+      "$ref": "definitions.schema.json#/definitions/timestamp"
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "$ref": "#/definitions/ReviewItem"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "observedAt",
+    "validUntil",
+    "items"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "ReviewItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Stable within the project.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$(?![\\s\\S])"
+        },
+        "title": {
+          "$ref": "definitions.schema.json#/definitions/text",
+          "type": "string",
+          "maxLength": 160
+        },
+        "status": {
+          "$ref": "#/definitions/ReviewStatus"
+        },
+        "statusText": {
+          "$ref": "definitions.schema.json#/definitions/text",
+          "type": "string",
+          "maxLength": 160
+        },
+        "fields": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/definitions/ReviewField"
+          }
+        },
+        "links": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/definitions/ReviewLink"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "status",
+        "statusText",
+        "fields",
+        "links"
+      ],
+      "additionalProperties": false
+    },
+    "ReviewStatus": {
+      "description": "needs-decision: waiting for the reviewer; in-progress: the project is working on it; done: nothing left to do; blocked: the project cannot proceed without a fix.",
+      "enum": [
+        "needs-decision",
+        "in-progress",
+        "done",
+        "blocked"
+      ]
+    },
+    "ReviewField": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "$ref": "definitions.schema.json#/definitions/text",
+          "type": "string",
+          "maxLength": 64
+        },
+        "text": {
+          "$ref": "definitions.schema.json#/definitions/multilineText",
+          "type": "string",
+          "maxLength": 5000
+        }
+      },
+      "required": [
+        "label",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "ReviewLink": {
+      "description": "An https page the project points the reviewer to, opened outside the consumer.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "$ref": "definitions.schema.json#/definitions/text",
+          "type": "string",
+          "maxLength": 64
+        },
+        "url": {
+          "type": "string",
+          "maxLength": 2048,
+          "pattern": "^https://[!-~]+$(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "label",
+        "url"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
